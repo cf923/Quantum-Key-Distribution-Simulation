@@ -24,6 +24,9 @@ f = "forwardslash" # corresponds to 0 in DG basis
 RLstates = [v,h]
 DGstates = [b,f]
 
+# define error threshold above which key generation is aborted
+error_trsh = 0
+
 # sender action, randomly generate a message containing nbits (number of bits) bits for the given bases and states
 def sendsignal(RLstates, DGstates, bases, nbits):
     senderbases = rd.choices(bases, k = nbits)
@@ -95,9 +98,57 @@ def recognise_error(senderbases,senderstates,receiverbases,receiverstates):
         
     return errors
 
-testbases,teststates = sendsignal(RLstates, DGstates, bases, 10)
-eavbases,eavstates = eavesdrop(True, RLstates, DGstates, bases, testbases, teststates, 10)
+def generate_key(errors,senderbases,senderstates,receiverbases,receiverstates):
+    senderkey = []
+    receiverkey =[]
+    key = []
+    if errors > error_trsh:
+        print("No key was generated due to the error count exceeding the threshold value.")
+        return  senderkey, receiverkey, key
+        
+    else: 
+        for i in range(0,len(senderbases)):
+            if senderbases[i]==receiverbases[i]:
+                senderkey.append(senderstates[i])
+                receiverkey.append(receiverstates[i]) # these keys should be the same, otherwise error threshold too high. 
+                
+            else: 
+                continue
+        
+        if senderkey == receiverkey: # this bit behaves a bit peculiarly if I try to make it more compact unfortunately.
+            for word in senderkey: # convert strings into 1s and 0s for key
+                
+                if word == 'vertical':
+                    key.append(1)
+                    continue
+                
+                elif word == "backslash":
+                    key.append(1)
+                    continue
+                
+                elif word == 'horizontal':
+                    key.append(0)
+                    continue
+                
+                elif word == 'forwardslash':
+                    key.append(0)
+                    continue
+                
+        
+    if senderkey == [] or receiverkey == []: 
+        print("No key could be established because there were no matching bases or the error threshold is too high.")
+        return senderkey, receiverkey, key
+    
+    else: 
+        return senderkey, receiverkey, key
+    
+
+testbases, teststates = sendsignal(RLstates, DGstates, bases, 10)
+eavbases, eavstates = eavesdrop(False, RLstates, DGstates, bases, testbases, teststates, 10)
 rectestbases, recteststates = receivesignal(RLstates, DGstates, bases, eavbases, eavstates, 10)
 testerrors = recognise_error(testbases, teststates, rectestbases, recteststates)
+senderkey, receiverkey, key = generate_key(testerrors, testbases, teststates, rectestbases, recteststates)
+
+
 
                     
