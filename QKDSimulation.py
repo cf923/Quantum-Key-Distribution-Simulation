@@ -142,7 +142,7 @@ def generate_key(errors,senderbases,senderstates,receiverbases,receiverstates):
     else: 
         return senderkey, receiverkey, key
     
-
+# testing below
 testbases, teststates = sendsignal(RLstates, DGstates, bases, 10)
 eavbases, eavstates = eavesdrop(False, RLstates, DGstates, bases, testbases, teststates, 10)
 rectestbases, recteststates = receivesignal(RLstates, DGstates, bases, eavbases, eavstates, 10)
