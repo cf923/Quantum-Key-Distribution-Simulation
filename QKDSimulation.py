@@ -38,11 +38,11 @@ def sendsignal(RLstates, DGstates, bases, nbits):
             
     return senderbases, senderstates
 
-testbases,teststates = sendsignal(RLstates, DGstates, bases, 10)
 
-def eavesdrop(eavesdropactive,RLstates,DGstates,bases,senderbases,senderstates,nbits):
+
+def eavesdrop(eavesdropactive, RLstates, DGstates, bases, senderbases, senderstates,nbits):
     if eavesdropactive: 
-        eavesdropperbases = rd.choice(bases, k = nbits)
+        eavesdropperbases = rd.choices(bases, k = nbits)
         eavesdropperstates = []
         if len(eavesdropperbases) != len(senderbases):
             raise Exception("You cannot eavesdrop on a message that is longer or shorter than the one sent.")
@@ -50,7 +50,7 @@ def eavesdrop(eavesdropactive,RLstates,DGstates,bases,senderbases,senderstates,n
             for i in range(0,len(eavesdropperbases)):
                 if eavesdropperbases[i] == senderbases[i]:
                     eavesdropperstates.append(senderstates[i])
-                elif eavesdropperbases[i] != eavesdropperbases[i]:
+                elif eavesdropperbases[i] != senderbases[i]:
                     if eavesdropperbases[i] == RL: 
                         eavesdropperstates.append(rd.choice(RLstates))
                     elif eavesdropperbases[i] == DG: 
@@ -58,30 +58,49 @@ def eavesdrop(eavesdropactive,RLstates,DGstates,bases,senderbases,senderstates,n
                     else: 
                         raise Exception("There is an issue with your eavesdropper bases.")
                         
-            return eavesdropperbases, eavesdropperstates
+        return eavesdropperbases, eavesdropperstates
     else:
         return senderbases, senderstates
 
-def receivesignal(eavesdropactive,RLstates,DGstates,bases,senderbases,senderstates, nbits):
+def receivesignal(eavesdropactive, RLstates, DGstates, bases, eavesdropperbases, eavesdropperstates, nbits):
+    receiverbases = rd.choices(bases, k = nbits)
+    receiverstates = []
     if eavesdropactive == False: 
-        receiverbases = rd.choices(bases, k = nbits)
-        receiverstates = []
-        if len(receiverbases) != len(senderbases):
+        if len(receiverbases) != len(eavesdropperbases):
             raise Exception("You cannot receive a message that is longer or shorter than the one sent.")
         else: 
             for i in range(0,len(receiverbases)): 
-                if receiverbases[i] == senderbases[i]: 
-                    receiverstates.append(senderstates[i]) 
-                elif receiverbases[i] != senderbases[i]:
+                if receiverbases[i] == eavesdropperbases[i]: 
+                    receiverstates.append(eavesdropperstates[i]) 
+                elif receiverbases[i] != eavesdropperbases[i]:
                     if receiverbases[i] == RL:
                         receiverstates.append(rd.choice(RLstates))
                     elif receiverbases[i] == DG: 
                         receiverstates.append(rd.choice(DGstates))
                     else: 
                         raise Exception("There is an issue with your receiver bases.")
+    elif eavesdropactive == True: 
+        if len(receiverbases) != len(eavesdropperbases):
+            raise Exception("You cannot receive a message that is longer or shorter than the one sent.")
+        else: 
+            for i in range(0,len(receiverbases)): 
+                if receiverbases[i] == eavesdropperbases[i]: 
+                    receiverstates.append(eavesdropperstates[i]) 
+                elif receiverbases[i] != eavesdropperbases[i]:
+                    if receiverbases[i] == RL:
+                        receiverstates.append(rd.choice(RLstates))
+                    elif receiverbases[i] == DG: 
+                        receiverstates.append(rd.choice(DGstates))
+                    else: 
+                        raise Exception("There is an issue with your receiver bases.")
+        
+    else:
+        raise Exception("Eavesdropper must be set to active or inactive using True or False.")
     
     return receiverbases, receiverstates
 
-rectestbases, recteststates = receivesignal(False, RLstates, DGstates, bases, testbases, teststates, 10)
+testbases,teststates = sendsignal(RLstates, DGstates, bases, 10)
+eavbases,eavstates = eavesdrop(True, RLstates, DGstates, bases, testbases, teststates, 10)
+rectestbases, recteststates = receivesignal(False, RLstates, DGstates, bases, eavbases, eavstates, 10)
 
                     
