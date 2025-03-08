@@ -20,13 +20,46 @@ The result is ultra-secure communication. QKD lets Alice and Bob share a secret 
 """)
 
 
+# Explanation of Bases and Quantum States
+st.header("Relationship Between Bases and Quantum States in QKD")
+st.write("""
+In Quantum Key Distribution (QKD), **Bases** and **Quantum States** are fundamental concepts that ensure secure communication. Here's how they relate:
 
+### 1. **Bases**
+Bases are reference frames used to measure quantum states. In QKD, two common bases are used:
+- **Rectilinear Basis (+ Basis)**:
+  - Used to measure vertical (|0⟩) and horizontal (|1⟩) polarization.
+- **Diagonal Basis (× Basis)**:
+  - Used to measure diagonal polarization (|↗⟩ and |↖⟩).
 
-"""
-Quantum Key Distribution Simulation, WIP
+### 2. **Quantum States**
+Quantum states represent the polarization of photons and encode binary information:
+- In the Rectilinear Basis:
+  - Vertical polarization (|0⟩) represents **1**.
+  - Horizontal polarization (|1⟩) represents **0**.
+- In the Diagonal Basis:
+  - Diagonal right (|↗⟩) or Forwards slash represents **1**.
+  - Diagonal left (|↖⟩) or Backslash represents **0**.
 
-@author: Alexandra Höhl
-"""
+### 3. **Relationship Between Bases and Quantum States**
+- If the receiver (Bob) uses the **same basis** as the sender (Alice), the quantum state is measured correctly.
+- If the receiver uses a **different basis**, the measurement result is random.
+- Matching bases are essential for key generation. Only when Alice and Bob use the same basis do they retain the corresponding quantum state as part of the key.
+- The randomness of basis selection ensures security. An eavesdropper (Eve) cannot correctly measure the quantum states without introducing errors.
+
+### 4. **Example in BB84 Protocol**
+1. Alice randomly selects a basis and sends a corresponding quantum state.
+2. Bob randomly selects a basis to measure the received quantum state.
+3. Alice and Bob publicly compare their bases (but not the quantum states).
+4. They retain only the quantum states where their bases match and convert them into a binary key.
+5. If errors are detected (e.g., due to eavesdropping), they discard the key and start over.
+""")
+
+#"""
+#Quantum Key Distribution Simulation, WIP
+
+#@author: Alexandra Höhl
+#"""
 
 import numpy as np
 import random as rd
@@ -176,10 +209,10 @@ senderkey, receiverkey, key = generate_key(testerrors, testbases, teststates, re
 
 
 
-"""
-Frontside
-Haoqian Jiang
-"""
+#"""
+#Frontside
+#Haoqian Jiang
+#""
 # Define bases and quantum states
 RL = "Rectilinear"
 DG = "Diagonal"
@@ -217,22 +250,43 @@ if st.button("Run Simulation"):
 
     # Display results
     st.subheader("Sender's Bases and Quantum States")
-    st.write("Bases:", testbases)
-    st.write("Quantum States:", teststates)
-
-    st.subheader("Eavesdropper's Bases and Quantum States")
-    st.write("Bases:", eavbases)
-    st.write("Quantum States:", eavstates)
+    
+    # Use columns to display Bases and Quantum States side by side
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.write("**Bases:**")
+        st.write(testbases)
+    
+    with col2:
+        st.write("**Quantum States:**")
+        st.write(teststates)
 
     st.subheader("Receiver's Bases and Quantum States")
-    st.write("Bases:", rectestbases)
-    st.write("Quantum States:", recteststates)
+    
+    # Use columns to display Bases and Quantum States side by side
+    col3, col4 = st.columns(2)
+    
+    with col3:
+        st.write("**Bases:**")
+        st.write(rectestbases)
+    
+    with col4:
+        st.write("**Quantum States:**")
+        st.write(recteststates)
 
     st.subheader("Error Detection")
-    st.write("Number of errors detected:", testerrors)
+    st.write("Number of errors detected:", eavstates)
 
+    # Display Generated Key
     st.subheader("Generated Key")
-    st.write("Sender's Key:", senderkey)
-    st.write("Receiver's Key:", receiverkey)
-    st.write("Final Binary Key:", key)
-
+    col7, col8, col9 = st.columns(3)
+    with col7:
+        st.write("**Sender's Key:**")
+        st.write(senderkey)
+    with col8:
+        st.write("**Receiver's Key:**")
+        st.write(receiverkey)
+    with col9:
+        st.write("**Final Binary Key:**")
+        st.write(key)
