@@ -202,6 +202,10 @@ nbits = st.number_input("Enter the number of bits for the key", min_value=1, max
 eavesdropactive = st.checkbox("Enable eavesdropper")
 error_trsh = st.slider("Set error threshold", min_value=0, max_value=10, value=0)
 
+# Check if key was generated
+if not key:
+        st.warning("Unable to generate key. Please adjust the number of bits or error threshold.")
+
 # Run button
 if st.button("Run Simulation"):
     # Call backend functions
