@@ -1,11 +1,11 @@
 import numpy as np
 
-def sendsignal(RLstates, DGstates, bases, nbits):
+def sendsignal(nbits):
     sender_bases = np.random.randint(0, 2, nbits, dtype=np.uint8)
     sender_states = np.random.randint(0, 2, nbits, dtype=np.uint8)+2*sender_bases
     return sender_bases, sender_states
 
-def eavesdrop(eavesdropping, RLstates, DGstates, bases, sender_bases, sender_states, nbits):
+def eavesdrop(eavesdropping, sender_bases, sender_states, nbits):
     if eavesdropping:
         eavesdropper_bases = np.random.randint(0, 2, nbits, dtype=np.uint8)
         if len(sender_bases)!=nbits:
@@ -14,7 +14,7 @@ def eavesdrop(eavesdropping, RLstates, DGstates, bases, sender_bases, sender_sta
         return eavesdropper_bases, eavesdropper_states
     return sender_bases, sender_states
 
-def receive_signal(RLstates, DGstates, bases, eavesdropper_bases, eavesdropper_states, nbits):
+def receive_signal(eavesdropper_bases, eavesdropper_states, nbits):
     receiver_bases = np.random.randint(0, 2, nbits, dtype=np.uint8)
     if len(eavesdropper_bases)!=nbits:
         raise ValueError("receiver_bases is different in length to eavesdropper_bases")
