@@ -35,8 +35,8 @@ Bases are reference frames used to measure quantum states. In QKD, two common ba
 ### 2. **Quantum States**
 Quantum states represent the polarization of photons and encode binary information:
 - In the Rectilinear Basis:
-  - Vertical polarization (|0⟩) represents **1**.
-  - Horizontal polarization (|1⟩) represents **0**.
+  - Vertical polarization (|) represents **1**.
+  - Horizontal polarization (-)presents **0**.
 - In the Diagonal Basis:
   - Diagonal right (|↗⟩) or Forwards slash represents **1**.
   - Diagonal left (|↖⟩) or Backslash represents **0**.
@@ -251,7 +251,7 @@ if st.button("Run Simulation"):
     # Display results
     st.subheader("Sender's Bases and Quantum States")
     
-    # Use columns to display Bases and Quantum States side by side
+    # Sender state
     col1, col2 = st.columns(2)
     
     with col1:
@@ -263,20 +263,32 @@ if st.button("Run Simulation"):
         st.write(teststates)
 
     st.subheader("Receiver's Bases and Quantum States")
-    
-    # Use columns to display Bases and Quantum States side by side
+
+    #Eavesdropper state
     col3, col4 = st.columns(2)
     
     with col3:
         st.write("**Bases:**")
-        st.write(rectestbases)
+        st.write(eavbases)
     
     with col4:
+        st.write("**Quantum States:**")
+        st.write(eavstates)
+
+    st.subheader("Receiver's Bases and Quantum States")
+    #receiver state
+    col5, col6 = st.columns(2)
+    
+    with col5:
+        st.write("**Bases:**")
+        st.write(rectestbases)
+    
+    with col6:
         st.write("**Quantum States:**")
         st.write(recteststates)
 
     st.subheader("Error Detection")
-    st.write("Number of errors detected:", eavstates)
+    st.write("Number of errors detected:", testerrors) 
 
     # Display Generated Key
     st.subheader("Generated Key")
@@ -290,3 +302,68 @@ if st.button("Run Simulation"):
     with col9:
         st.write("**Final Binary Key:**")
         st.write(key)
+
+        import streamlit as st
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Quiz Time
+# Title
+st.title("Quantum Key Distribution (QKD) Quiz")
+
+# Question 1: Multiple Choice
+st.subheader("Question 1: Bases in QKD")
+st.write("In QKD, which of the following are valid bases for measuring quantum states?")
+options = ["Rectilinear (+)", "Diagonal (×)", "Circular (○)", "Linear (|)"]
+user_answer = st.radio("Select the correct options:", options)
+
+# Check answer for Question 1
+if st.button("Submit Answer for Question 1"):
+    if user_answer in ["Rectilinear (+)", "Diagonal (×)"]:
+        st.success("Correct! Rectilinear and Diagonal are valid bases in QKD.")
+    else:
+        st.error("Incorrect. Rectilinear and Diagonal are the valid bases.")
+
+# Question 2: Fill in the Blank
+st.subheader("Question 2: Quantum States")
+st.write("In the Rectilinear basis, what does the vertical polarization state represent?")
+user_input = st.text_input("Enter your answer:")
+
+# Check answer for Question 2
+if st.button("Submit Answer for Question 2"):
+    if user_input.lower() in ["1", "one"]:
+        st.success("Correct! Vertical polarization represents the binary value 1.")
+    else:
+        st.error("Incorrect. Vertical polarization represents the binary value 1.")
+
+# Question 3: Simulation
+st.subheader("Question 3: Simulate QKD")
+st.write("Choose a basis to measure the quantum state and see the result.")
+
+# Define bases and quantum states
+bases = ["Rectilinear (+)", "Diagonal (×)"]
+quantum_states = {
+    "Rectilinear (+)": ["Vertical (1)", "Horizontal (0)"],
+    "Diagonal (×)": ["Backslash (1)", "Forwardslash (0)"]
+}
+
+# User selects a basis
+selected_basis = st.selectbox("Select a basis:", bases)
+
+# Simulate measurement
+if st.button("Measure Quantum State"):
+    # Randomly select a quantum state based on the chosen basis
+    import random
+    result = random.choice(quantum_states[selected_basis])
+    st.write(f"Measurement Result: {result}")
+
+    # Explain the result
+    if "Vertical" in result or "Backslash" in result:
+        st.write("This represents the binary value **1**.")
+    else:
+        st.write("This represents the binary value **0**.")
+
+# Final Feedback
+st.subheader("How did you do?")
+st.write("Check your answers above and see if you got them right!")
+
+
