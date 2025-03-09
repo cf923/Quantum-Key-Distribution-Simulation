@@ -64,7 +64,7 @@ def eavesdrop(eavesdropactive, RLstates, DGstates, bases, senderbases, sendersta
         return eavesdropperbases, eavesdropperstates
     
     else:
-        return senderbases, senderstates
+        return senderbases[:], senderstates[:]
 
 def receivesignal(RLstates, DGstates, bases, eavesdropperbases, eavesdropperstates, nbits):
     receiverbases = rd.choices(bases, k = nbits)
