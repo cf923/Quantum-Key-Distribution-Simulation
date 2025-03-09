@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import random as rd
+import matplotlib.pyplot as plt
 
 st.title("Quantum Key Distribution: The Unbreakable Lock for Secrets")
 execution_count: None
@@ -307,5 +308,152 @@ if st.button("Run Simulation"):
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Title
+st.title("Quantum Key Distribution (QKD) Quiz")
 
+# Question 1: Multiple Choice
+st.subheader("Question 1: Bases in QKD")
+st.write("In QKD, which of the following are valid bases for measuring quantum states?")
+options = ["Rectilinear (+)", "Diagonal (×)", "Circular (○)", "Linear (|)"]
+user_answer = st.radio("Select the correct options:", options)
 
+# Check answer for Question 1
+if st.button("Submit Answer for Question 1"):
+    if user_answer in ["Rectilinear (+)", "Diagonal (×)"]:
+        st.success("Correct! Rectilinear and Diagonal are valid bases in QKD.")
+    else:
+        st.error("Incorrect. Rectilinear and Diagonal are the valid bases.")
+
+# Question 2: Fill in the Blank
+st.subheader("Question 2: Quantum States")
+st.write("In the Rectilinear basis, what does the vertical polarization state represent?")
+user_input = st.text_input("Enter your answer:")
+
+# Check answer for Question 2
+if st.button("Submit Answer for Question 2"):
+    if user_input.lower() in ["1", "one"]:
+        st.success("Correct! Vertical polarization represents the binary value 1.")
+    else:
+        st.error("Incorrect. Vertical polarization represents the binary value 1.")
+
+# Question 3: Simulation
+st.subheader("Question 3: Simulate QKD")
+st.write("Choose a basis to measure the quantum state and see the result.")
+
+# Define bases and quantum states
+bases = ["Rectilinear (+)", "Diagonal (×)"]
+quantum_states = {
+    "Rectilinear (+)": ["Vertical (1)", "Horizontal (0)"],
+    "Diagonal (×)": ["Backslash (1)", "Forwardslash (0)"]
+}
+
+# User selects a basis
+selected_basis = st.selectbox("Select a basis:", bases)
+
+# Simulate measurement
+if st.button("Measure Quantum State"):
+    # Randomly select a quantum state based on the chosen basis
+    result = rd.choice(quantum_states[selected_basis])
+    st.write(f"Measurement Result: {result}")
+
+    # Explain the result
+    if "Vertical" in result or "Backslash" in result:
+        st.write("This represents the binary value **1**.")
+    else:
+        st.write("This represents the binary value **0**.")
+
+    # Visualization
+    st.subheader("Visualization of Quantum State")
+    fig, ax = plt.subplots()
+
+    # Draw the quantum state
+    if "Vertical" in result:
+        ax.arrow(0, 0, 0, 1, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
+        ax.set_title("Vertical Polarization (1)")
+    elif "Horizontal" in result:
+        ax.arrow(0, 0, 1, 0, head_width=0.1, head_length=0.1, fc='red', ec='red')
+        ax.set_title("Horizontal Polarization (0)")
+    elif "Backslash" in result:
+        ax.arrow(0, 0, 1, 1, head_width=0.1, head_length=0.1, fc='green', ec='green')
+        ax.set_title("Backslash Polarization (1)")
+    elif "Forwardslash" in result:
+        ax.arrow(0, 0, 1, -1, head_width=0.1, head_length=0.1, fc='purple', ec='purple')
+        ax.set_title("Forwardslash Polarization (0)")
+
+    # Set plot limits and labels
+    ax.set_xlim(-1.5, 1.5)
+    ax.set_ylim(-1.5, 1.5)
+    ax.set_xlabel("X Axis")
+    ax.set_ylabel("Y Axis")
+    ax.grid(True)
+
+    # Display the plot
+    st.pyplot(fig)
+
+# Final Feedback
+st.subheader("How did you do?")
+st.write("Check your answers above and see if you got them right!")
+
+#--------------------------------------------------------------------------------
+# Title
+st.title("Quantum Key Distribution (QKD) Receiver Simulation")
+
+# Define bases and quantum states
+bases = ["Rectilinear (+)", "Diagonal (×)"]
+quantum_states = {
+    "Rectilinear (+)": ["Vertical (1)", "Horizontal (0)"],
+    "Diagonal (×)": ["Backslash (1)", "Forwardslash (0)"]
+}
+
+# Sender's data
+st.subheader("Sender's Data")
+st.write("The sender (Alice) has sent the following quantum states:")
+
+# Randomly generate sender's bases and quantum states
+sender_bases = [rd.choice(bases) for _ in range(5)]  # 5 random bases
+sender_states = [rd.choice(quantum_states[basis]) for basis in sender_bases]
+
+# Display sender's bases and quantum states
+st.write("**Sender's Bases:**", sender_bases)
+st.write("**Sender's Quantum States:**", sender_states)
+
+# Receiver's task
+st.subheader("Receiver's Task")
+st.write("Based on the sender's data, predict what the receiver (Bob) will measure.")
+
+# User inputs for receiver's bases
+st.write("Enter the bases that the receiver will use for measurement:")
+receiver_bases = []
+for i in range(len(sender_bases)):
+    receiver_bases.append(st.selectbox(f"Basis for bit {i+1}:", bases, key=f"basis_{i}"))
+
+# Simulate receiver's measurement
+if st.button("Simulate Receiver's Measurement"):
+    st.subheader("Receiver's Measurement Results")
+    receiver_states = []
+    for i in range(len(sender_bases)):
+        if receiver_bases[i] == sender_bases[i]:
+            # If bases match, receiver measures the same state
+            receiver_states.append(sender_states[i])
+        else:
+            # If bases don't match, receiver randomly measures a state
+            receiver_states.append(rd.choice(quantum_states[receiver_bases[i]]))
+
+    # Display receiver's results
+    st.write("**Receiver's Bases:**", receiver_bases)
+    st.write("**Receiver's Quantum States:**", receiver_states)
+
+    # Check if user's prediction is correct
+    st.subheader("Check Your Prediction")
+    user_prediction = st.text_area("Enter your prediction for the receiver's quantum states (comma-separated):")
+    if user_prediction:
+        user_prediction = [s.strip() for s in user_prediction.split(",")]
+        if user_prediction == receiver_states:
+            st.success("Correct! Your prediction matches the receiver's measurement.")
+        else:
+            st.error("Incorrect. Your prediction does not match the receiver's measurement.")
+            st.write("Correct receiver's quantum states:", receiver_states)
+
+# Final Feedback
+st.subheader("How did you do?")
+st.write("Check your prediction and see if it matches the receiver's measurement!")
