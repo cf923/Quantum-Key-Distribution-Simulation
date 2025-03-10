@@ -27,7 +27,7 @@ def plot_arrays(arrays, titles, color_map, ncols=4):
     return fig
 
 if st.button("Run"):
-    result = subprocess.run(['/home/cj/IRC/Quantum_Key_Distribution_Simulation'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    result = subprocess.run(['<Quantum_Key_Distribution_Simulation_binary_location'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = result.stdout.decode('utf-8')
     lines = output.strip().split('\n')
     vals = [np.array(i.split(), dtype=np.uint8) for i in lines]
