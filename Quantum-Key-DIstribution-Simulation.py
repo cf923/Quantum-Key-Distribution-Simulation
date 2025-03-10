@@ -37,7 +37,7 @@ def generate_key(errors, sender_bases, sender_states, receiver_bases, receiver_s
     sender_key = np.extract(sender_bases==receiver_bases, sender_states)
     receiver_key = np.extract(sender_bases==receiver_bases, receiver_states)
     if np.array_equal(sender_key, receiver_key):
-        key = sender_key
+        key = sender_key%2
     else:
         key=None
     if sender_key.size == 0 or receiver_key.size == 0:
