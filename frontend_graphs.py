@@ -39,6 +39,7 @@ if st.button("Run"):
     st.pyplot(plot_arrays([send_bases, eavbases, rec_bases], ["Sender Bases", "Eavesdropper Bases", "Receiver Bases"], colmap, ncols=2))
     st.header("States:")
     st.pyplot(plot_arrays([send_states, eavstates, rec_states], ["Sender States", "Eavesdropper States", "Receiver States"], colmap))
+    st.write(f"Detected  {errors} error"+"s"*(errors!=1))
     if key is not None:
         st.header("Keys:")
         st.pyplot(plot_arrays([senderkey, receiverkey, key], ["Sender Key", "Receiver Key", "Resulting Key"], colmap))
