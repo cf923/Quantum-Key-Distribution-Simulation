@@ -1,17 +1,14 @@
-import streamlit as st, matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib.colors import ListedColormap
 from numpy import arange
+import streamlit as st
 import Quantum_Key_Distribution_Simulation as qk
 
-st.title("Quantum Key Distribution Simulation")
 cols = ["Red", "Blue", "Green", "Yellow"]
 colmap = ListedColormap(cols)
-nbits = st.number_input("Number of bits for key", min_value=1, max_value=100, value=10)
-eavesdropactive = st.checkbox("Enable eavesdropper")
-error_bound = st.slider("Error threshold", min_value=0, max_value=100, value=0)
 
-def plot_arrays(arrays, titles, color_map, ncols=4):
+def plot_arrays(arrays, titles, eavesdropactive, color_map, ncols=4):
     if not eavesdropactive and titles[0]!="Sender Key":
         del arrays[1]
         del titles[1]
@@ -28,7 +25,7 @@ def plot_arrays(arrays, titles, color_map, ncols=4):
     plt.tight_layout()
     return fig
 
-if st.button("Run"):
+def run(nbits, eavesdropactive, error_bound):
     send_bases, send_states = qk.sendsignal(nbits)
     eavbases, eavstates = qk.eavesdrop(eavesdropactive, send_bases, send_states, nbits)
     rec_bases, rec_states = qk.receive_signal(eavbases, eavstates, nbits)
@@ -36,15 +33,16 @@ if st.button("Run"):
     senderkey, receiverkey, key = qk.generate_key(errors, send_bases, send_states, rec_bases, rec_states, error_bound)
 
     st.header("Bases:")
-    st.pyplot(plot_arrays([send_bases, eavbases, rec_bases], ["Sender Bases", "Eavesdropper Bases", "Receiver Bases"], colmap, ncols=2))
+    st.pyplot(plot_arrays([send_bases, eavbases, rec_bases], ["Sender Bases", "Eavesdropper Bases", "Receiver Bases"], eavesdropactive, colmap, ncols=2))
     st.header("States:")
-    st.pyplot(plot_arrays([send_states, eavstates, rec_states], ["Sender States", "Eavesdropper States", "Receiver States"], colmap))
+    st.pyplot(plot_arrays([send_states, eavstates, rec_states], ["Sender States", "Eavesdropper States", "Receiver States"], eavesdropactive, colmap))
     st.write(f"Detected  {errors} error"+"s"*(errors!=1))
     if key is not None:
         st.header("Keys:")
-        st.pyplot(plot_arrays([senderkey, receiverkey, key], ["Sender Key", "Receiver Key", "Resulting Key"], colmap))
+        st.pyplot(plot_arrays([senderkey, receiverkey, key], ["Sender Key", "Receiver Key", "Resulting Key"], eavesdropactive, colmap))
     else:
         st.markdown("### Keys not generated - error rate too high")
         if senderkey is not None:
             st.markdown("#### Sender and Receiver keys generated:")
-            st.pyplot(plot_arrays([senderkey, receiverkey], ["Sender Key", "Receiver Key"], colmap))
+            st.pyplot(plot_arrays([senderkey, receiverkey], ["Sender Key", "Receiver Key"], eavesdropactive, colmap))
+    return
