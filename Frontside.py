@@ -31,29 +31,24 @@ The security of common classical encryption methods is based on the fact that it
 based on mathematical principles. 
 A quantum computer, however, poses a potential threat to common encryption schemes due to its ability to efficiently break them. 
 (See Shor's algorithm if you want to know more - warning: complicated).
+""")
  
+st.subheader("Quantum Key Distribution and the BB84 Protocol")
 
+st.write("""
+One approach to making data "quantum-safe",
+i.e. making its encryption sturdy enough to withstand quantum computers (research on which continues to progress rapidly),
+is quantum key distribution (QKD). 
+QKD makes use of quantum mechanical particle-waves like photons - "light particles" - which you will have met in highschool, 
+to detect the presence of an eavesdropper. 
+It does this by making use of wave-function collapse (if you want to know more, the wikipedia page is a good starting point, but I also recommend "Introduction to Quantum Mechanics" by David J. Griffiths),
+which impacts the state of the particle when it is observed. 
+- basically: the message changes whenever it is read, so you would know if someone intercepted your secret message. 
+The following example should make it clearer how this works. 
 
-Imagine you want to send a secret message to your best friend.
-You lock the message in a special box that only you and your friend can open.
-Here’s the magic: if a sneaky spy tries to peek or tamper with the box along the way,
-the lock will automatically change or the message will self-destruct,
-alerting you that someone tried to snoop.
-In other words, the spy gets nothing,
-and you immediately know your secret wasn’t safe. 
-This idea of a tamper-proof, unbreakable lock is at the heart
-of what we’re about to explore.
-Now, replace that box and lock with the laws of quantum physics
-– this is how Quantum Key Distribution (QKD) works in real life.
-Instead of a physical box,
-QKD sends information using tiny particles of light (photons) as the “keys.”
-Thanks to quantum physics, any attempt to eavesdrop on these photons instantly changes their properties.
-It’s like the act of peeking jumbles the lock. 
+One of the most fundamental implementations of such a key distribution protocol is the BB84 protocol. 
+         
 
-So if an eavesdropper (often nicknamed “Eve”) tries to intercept the key,
-the very act of spying leaves a telltale signal.
-The legitimate sender and receiver (let’s call them Alice and Bob)
-will notice something’s off and know someone tried to listen in.
 
 The result is ultra-secure communication.
 QKD lets Alice and Bob share a secret encryption key with confidence that only they possess it.
