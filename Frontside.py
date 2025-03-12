@@ -87,7 +87,14 @@ In particular, the **BB84** protocol functions as follows:
     - When the basis does not match Alice's, the measured state has a 50/50 chance of being either of the states belonging to Eve's chosen basis.
     - Eve passes the particles that she has now measured onto Bob (she cannot make a copy of them due to the no-cloning theorem).
     - Bob makes a measurement of his own, and the following outcomes may occur for each bit:
-        - If Eve chose the same basis as Alice and Bob chooses that basis, he will measure what 
+        1. If Eve chose the same basis as Alice, and Bob chooses that basis too, he will measure the same state as Alice. 
+        2. If Eve chose the same basis as Alice, but Bob chooses the other basis, he will randomly measure one of the two states belonging to that basis. 
+        3. If Eve chose a different basis compared to Alice, but Bob chooses the same basis as Eve, then he measures the same state as Eve. 
+        4. If Eve chose a different basis compared to Alice, and Bob chooses the same basis as Alice, then he has a 50/50 chance of measuring the same state as Alice. 
+    Notice that in 4., if there was no eavesdropper, it would be impossible for Bob to measure anything but Alice's state. 
+    If this does occur, we call this an error. It is a sign that there may be an eavesdropper - in a realistic scenario, there may be other sources of error. 
+    There is a certain probability of finding the eavesdropper, meaning that if Alice does not send enough bits, there is a chance that they will not detect Eve. 
+    
 
 
 
