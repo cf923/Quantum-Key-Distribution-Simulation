@@ -46,45 +46,55 @@ which impacts the state of the particle when it is observed.
 - basically: the message changes whenever it is read, so you would know if someone intercepted your secret message. 
 The following example should make it clearer how this works. 
 
-One of the most fundamental implementations of such a key distribution protocol is the BB84 protocol. 
-         
+One of the most fundamental implementations of such a key distribution protocol is the BB84 protocol, which is simulated below.
+To help you understand what is happening, we first have to establish some definitions:
+    
+### 1. **Bases**
+Bases are reference frames used to measure quantum states. Think of this as using different filters in front of your camera, 
+so that only photons that are polarised a certain way make it through. Here, we use the following two bases:
+- **Rectilinear Basis (+ Basis)**:
+  - Used to measure vertical (|↑⟩) and horizontal (|→⟩) states.
+- **Diagonal Basis (× Basis)**:
+  - Used to measure diagonal states (|↗⟩ and |↖⟩).    
+
+### 2. **States**
+Quantum states are mathematical formulations that tell us about the properties of a system, like its position, momentum and energy. 
+In our case, the states that we are interested in represent how our light is polarised.
+We will also represent these in binary, so that eventually a binary string can be used as a key:
+  - Vertical (|↑⟩) represents **1**.
+  - Horizontal (|→⟩) presents **0**.
+- In the Diagonal Basis:
+  - Diagonal right (|↗⟩) or Forwards slash represents **1**.
+  - Diagonal left (|↖⟩) or Backslash represents **0**.
+  
+### 3. **Relationship Between Bases and Quantum States**
+Say a sender (let's call them Alice) randomly selects a list of bases.
+Then for each item in that list ("bit"), they randomly pick one of the two states belonging to the respective basis for that bit. 
+Alice keeps a note of what bases she used and what states she sent. 
+Consider Alice sending individual photons, which are polarised in accordance with the states above (|↑⟩, |→⟩, |↗⟩, |↖⟩).
+Now, when a receiver ("Bob") wants to read the list of states, he has to randomly choose bases to measure them in. 
+Then for each bit:
+    - If Alice's and Bob's bases match, Bob measures the same state as that sent by Alice. 
+    - If their bases do not match, Bob randomly measures one of the two states associated with his chosen basis. 
+Effectively, this is Bob holding a filter in front of his camera and recording what he detects. 
+This is also the principle behind eavesdropper recognition. 
+
+In particular, the **BB84** protocol functions as follows:
+    - Alice sends particles as described above. 
+    - An eavesdropper ("Eve") intercepts Alice's particles to spy on the communication. 
+    - Eve chooses random bases for her measurements.
+    - Whenever her basis matches Alice's, she measures the same state. 
+    - When the basis does not match Alice's, the measured state has a 50/50 chance of being either of the states belonging to Eve's chosen basis.
+    - Eve passes the particles that she has now measured onto Bob (she cannot make a copy of them due to the no-cloning theorem).
+    - Bob makes a measurement of his own, and the following outcomes may occur for each bit:
+        - If Eve chose the same basis as Alice and Bob chooses that basis, he will measure what 
 
 
-The result is ultra-secure communication.
-QKD lets Alice and Bob share a secret encryption key with confidence that only they possess it.
-If a spy intervenes, the disturbance is detected and the faulty key can be thrown away,
-ensuring no information is compromised.
-It’s as if their message is protected by an unbreakable quantum lock
-that not only keeps intruders out but also reports any break-in attempt.
-In simple terms, QKD uses the strange rules of quantum physics to guarantee
-that two people can share secrets securely
-– a level of security so strong that it’s often called “unconditional,”
-relying on nature’s physics rather than tricky math​
-. With a quantum key in hand, Alice and Bob can communicate with peace of mind,
-knowing their conversation is locked up tight by the fundamental laws of physics –
-a new era of secrecy where eavesdroppers are left in the dark.
+
 """)
 
 st.header("Relationship Between Bases and Quantum States in QKD")
 st.write("""
-In Quantum Key Distribution (QKD), **Bases** and **Quantum States** are 
-undamental concepts that ensure secure communication. Here's how they relate:
-
-### 1. **Bases**
-Bases are reference frames used to measure quantum states. In QKD, two common bases are used:
-- **Rectilinear Basis (+ Basis)**:
-  - Used to measure vertical (|0⟩) and horizontal (|1⟩) polarization.
-- **Diagonal Basis (× Basis)**:
-  - Used to measure diagonal polarization (|↗⟩ and |↖⟩).
-
-### 2. **Quantum States**
-Quantum states represent the polarization of photons and encode binary information:
-- In the Rectilinear Basis:
-  - Vertical polarization (|) represents **1**.
-  - Horizontal polarization (-)presents **0**.
-- In the Diagonal Basis:
-  - Diagonal right (|↗⟩) or Forwards slash represents **1**.
-  - Diagonal left (|↖⟩) or Backslash represents **0**.
 
 ### 3. **Relationship Between Bases and Quantum States**
 - If the receiver (Bob) uses the **same basis** as the sender (Alice),
