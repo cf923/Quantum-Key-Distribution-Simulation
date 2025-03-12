@@ -5,12 +5,35 @@ from matplotlib.patches import Patch
 from matplotlib.colors import ListedColormap
 from random import choice
 import Quantum_Key_Distribution_Simulation as qk
-st.title("Quantum Key Distribution: The Unbreakable Lock for Secrets")
+st.title("Quantum Key Distribution - BB84 Protocol Simulation")
 execution_count: None
 
-st.subheader("Description")
+st.subheader("What is encryption and why should I care about it?")
 
 st.write("""
+If you were told that modern society is built on technology, 
+you would most likely be inclined to agree. 
+We use computers for everything. 
+However, as convenient as that is, 
+it means that your personal data is stored in databases which could, if unprotected, 
+be accessed by anyone knowledgable enough. 
+This data includes not just harmless chat logs but also deeply sensitive information such as bank details or medical information.
+
+One important layer of protection is encryption, 
+which is intended to prevent a malicious third party from making use of your data, 
+in the event that they get their hands on it. 
+The basic idea is that a key is used to encrypt the data, 
+which can then be utilised by the intended user to decrypt and use the data. 
+This is similar to the process of converting a secret message into a cipher, 
+and only allowing the recipient to see the key. 
+
+The security of common classical encryption methods is based on the fact that it would take a normal computer an unfeasible amount of time to break the encryption,
+based on mathematical principles. 
+A quantum computer, however, poses a potential threat to common encryption schemes due to its ability to efficiently break them. 
+(See Shor's algorithm if you want to know more - warning: complicated).
+ 
+
+
 Imagine you want to send a secret message to your best friend.
 You lock the message in a special box that only you and your friend can open.
 Here’s the magic: if a sneaky spy tries to peek or tamper with the box along the way,
