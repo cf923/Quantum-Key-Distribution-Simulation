@@ -1,7 +1,5 @@
 Problems/bad syntax (pretty much ranked by importance):
 
-1 Don't AI generate the description.
-
 6 Quiz has multiple choice questions that only allow one input.
 
 7 Don't use text fields as quiz inputs.
@@ -10,13 +8,15 @@ Problems/bad syntax (pretty much ranked by importance):
 
 10 Comments should say why not what.
 
-12 Use LaTeX not UTF-8 for symbols, possibly don't use them at all.
-
 13 use st.markdown instead of st.write, especially for single variables as it doesn't return the output in separate text.
 
 14 You can use static variables if you don't want a variable to change, e.g. error_bound.
 
-Things I fixed on the first modification:
+Fixed:
+
+~~1 Don't AI generate the description.~~
+
+~~12 Use LaTeX not UTF-8 for symbols, possibly don't use them at all.~~
 
 ~~2 Don't use QKDSim.py. Use the newer, more optimized versions.~~
 
