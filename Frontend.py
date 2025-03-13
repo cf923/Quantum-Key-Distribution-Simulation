@@ -47,12 +47,16 @@ One of the most fundamental implementations of such a key distribution protocol 
 To help you understand what is happening, we first have to establish some definitions:
     
 ### 1. **Bases**
-Bases are reference frames used to measure quantum states. Think of this as using different filters in front of your camera, 
+Bases are pairs of quantum states which cannot be measured at the same time, they represent the reference frames used to measure certain quantum states.
+Think of this as using different filters in front of your camera, 
 so that only photons that are polarised a certain way make it through. Here, we use the following two bases:
 - **Rectilinear Basis (+ Basis)**:
   - Used to measure vertical (|↑⟩) and horizontal (|→⟩) states.
 - **Diagonal Basis (× Basis)**:
   - Used to measure diagonal states (|↗⟩ and |↖⟩).    
+
+Note that this means you cannot measure a state from another basis if you are not making your measurement in that basis.
+For example, if you measure in the diagonal basis, it is impossible to detect vertical and horizontal states and vice versa. 
 
 ### 2. **States**
 Quantum states are mathematical formulations that tell us about the properties of a system, like its position, momentum and energy. 
@@ -121,32 +125,34 @@ error_bound = st.slider("Error threshold", min_value=0, max_value=100, value=0)
 if st.button("Run Simulation"):
     fg.run(nbits, eavesdropactive, error_bound)
 
-st.subheader("Sender's Bases and Quantum States")
-
 st.title("Quantum Key Distribution (QKD) Quiz")
 
-st.subheader("Question 1: Bases in QKD")
-st.write("In QKD, which of the following are valid bases for measuring quantum states?")
-options = ["Rectilinear (+)", "Diagonal (×)", "Circular (○)", "Linear (|)"]
-user_answer = st.radio("Select the correct options:", options)
+st.subheader("Question 1: Bases")
+st.write("In the context of the BB84 protocol, what is a measurement basis?")
+options1 = ["The core of the quantum computer", "Two quantum states that can be measured simultaneously", "The reason for making the measurement", "A pair of states which can't be measured at the same time"]
+user_answer1 = st.radio("Select the correct option:", options1)
 
 if st.button("Submit Answer for Question 1"):
-    if user_answer in ["Rectilinear (+)", "Diagonal (×)"]:
-        st.success("Correct! Rectilinear and Diagonal are valid bases in QKD.")
+    if user_answer1 == "A pair of states which can't be measured at the same time":
+        st.success("Correct! It is important that the measurement yields a clear result (not a superposition), which is why the states must not be able to be measured simultaneously.")
     else:
-        st.error("Incorrect. Rectilinear and Diagonal are the valid bases.")
+        st.error("Incorrect: A measurement basis is a pair of states which can't be measured at the same time - otherwise, you may measure a mix of states and the protocol does not function as intended.")
 
 st.subheader("Question 2: Quantum States")
-st.write("In the Rectilinear basis, what does the vertical polarization state represent?")
-user_input = st.text_input("Enter your answer:")
+st.write("If Alice makes a measurement in the Rectilinear (+) basis, what states can she measure?")
+options2 = ["Vertical (|↑⟩)", "Diagonal right (|↗⟩)", "Diagonal left (|↖⟩)", "Horizontal (|→⟩)"]
+user_answer2 = st.radio("Select the correct options:", options2)
 
 if st.button("Submit Answer for Question 2"):
-    if user_input.lower() in ["1", "one"]:
-        st.success("Correct! Vertical polarization represents the binary value 1.")
+    if user_answer2 in ["Vertical (|↑⟩)", "Horizontal (|→⟩)"]:
+        st.success("Correct!")
     else:
-        st.error("Incorrect. Vertical polarization represents the binary value 1.")
+        st.error("Incorrect. She can only measure the states which make up that basis, i.e. vertical and horizontal.")
+        
+st.subheader("How did you do?")
+st.write("Check your answers above and see if you got them right!")
 
-st.subheader("Question 3: Simulate QKD")
+st.subheader("Simulate a single measurement")
 st.write("Choose a basis to measure the quantum state and see the result.")
 
 bases = ["Rectilinear (+)", "Diagonal (×)"]
@@ -180,10 +186,10 @@ if st.button("Measure Quantum State"):
         ax.arrow(0, 0, 1, 0, head_width=0.1, head_length=0.1, fc='red', ec='red')
         ax.set_title("Horizontal Polarization (0)")
     elif "Backslash" in result:
-        ax.arrow(0, 0, 1, 1, head_width=0.1, head_length=0.1, fc='green', ec='green')
+        ax.arrow(0, 0, 1, -1, head_width=0.1, head_length=0.1, fc='green', ec='green')
         ax.set_title("Backslash Polarization (1)")
     elif "Forwardslash" in result:
-        ax.arrow(0, 0, 1, -1, head_width=0.1, head_length=0.1, fc='purple', ec='purple')
+        ax.arrow(0, 0, 1, 1, head_width=0.1, head_length=0.1, fc='purple', ec='purple')
         ax.set_title("Forwardslash Polarization (0)")
 
     ax.set_xlim(-1.5, 1.5)
@@ -193,9 +199,6 @@ if st.button("Measure Quantum State"):
     ax.grid(True)
     
     st.pyplot(fig)
-
-st.subheader("How did you do?")
-st.write("Check your answers above and see if you got them right!")
 
 st.title("Quantum Key Distribution (QKD) Receiver Simulation")
 
