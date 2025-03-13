@@ -1,0 +1,13 @@
+Improvement ideas:
+- Label the error causing bit on the graph.
+- Prevent page from reloading when button is pressed, otherwise "predict the states" section does not work (!)
+- Need more quiz questions. 
+- Label the x axis as bits?
+- Put different sections on separate pages so that it's easier to get an overview. 
+- Add references (!)
+- Not sure what "resulting key" is but it should not be different to sender and receiver key. Maybe just display one final key? 
+
+Fixed: 
+- Question 3 mixes up forward slash and backslash. 
+
+
