@@ -2,8 +2,6 @@ Problems/bad syntax (pretty much ranked by importance):
 
 6 Quiz has multiple choice questions that only allow one input.
 
-7 Don't use text fields as quiz inputs.
-
 11 Don't do `if x in y` for checking if y is x (`if y==x`).
 
 10 Comments should say why not what.
@@ -31,3 +29,5 @@ Fixed:
 ~~4 Increase max_value of nbits slider, and max_value of error_trsh slider objects.~~
 
 ~~8 Don't import everything form a library to only use it once.~~
+
+~~7 Don't use text fields as quiz inputs.~~
