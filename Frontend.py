@@ -128,7 +128,7 @@ with about:
         """)
 
 with sim: 
-    st.title("Quantum Key Distribution Simulation")
+    st.title("QKD Simulation")
     nbits = st.number_input("Number of bits for key (recommended: 10)", min_value=1, max_value=100, value=10)
     eavesdropactive = st.checkbox("Enable eavesdropper")
     error_bound = st.slider("Error threshold", min_value=0, max_value=100, value=0)
@@ -137,6 +137,8 @@ with sim:
     if st.button("Run Simulation"):
         fg.run(nbits, eavesdropactive, error_bound)
         
+    st.divider()
+    
     st.subheader("Simulate a single measurement")
     st.write("Choose a basis to measure the quantum state and see the result.")
 
@@ -186,7 +188,7 @@ with sim:
         st.pyplot(fig)
         
 with quiz: 
-    st.title("Quantum Key Distribution (QKD) Quiz")
+    st.title("QKD Quiz")
     
     st.subheader("Question 1: Bases")
     st.write("In the context of the BB84 protocol, what is a measurement basis?")
@@ -226,7 +228,7 @@ with quiz:
 
     st.divider()
 
-    st.title("Quantum Key Distribution (QKD) Receiver Prediction")
+    st.title("Receiver's Prediction Game")
     
     bases = ["Rectilinear (+)", "Diagonal (×)"]
     quantum_states = {
@@ -234,22 +236,30 @@ with quiz:
         "Diagonal (×)": ["Backslash (1)", "Forwardslash (0)"]
     }
     with st.expander("Click to expand"):
-        st.subheader("Sender's Data")
-        st.write("The sender (Alice) has sent the following quantum states:")
-        
-        sender_bases = [choice(bases) for _ in range(5)]
-        sender_states = [choice(quantum_states[basis]) for basis in sender_bases]
-        
-        st.write("**Sender's Bases:**", sender_bases)
-        st.write("**Sender's Quantum States:**", sender_states)
         
         st.subheader("Receiver's Task")
         st.write("Based on the sender's data, predict what the receiver (Bob) will measure.")
         
         st.write("First, enter the bases that the receiver will choose for measurement:")
         receiver_bases = []
-        for i in range(len(sender_bases)):
+        for i in range(5):
             receiver_bases.append(st.selectbox(f"Basis for bit {i+1}:", bases, key=f"basis_{i}"))
+        
+        st.subheader("Sender's Data")
+        st.write("The sender (Alice) has sent the following quantum states:")
+        
+        @st.cache_data
+        def sender_info(bases,states):
+            sender_bases = [choice(bases) for _ in range(5)]
+            sender_states = [choice(quantum_states[basis]) for basis in sender_bases]
+            
+            return sender_bases, sender_states
+        
+        sender_bases, sender_states = sender_info(bases,quantum_states)
+        st.write("**Sender's Bases:**", sender_bases)
+        st.write("**Sender's Quantum States:**", sender_states)
+        
+        user_prediction = st.text_area("Use this text box to note down your prediction for the receiver's quantum states:")
         
         if st.button("Simulate Receiver's Measurement"):
             st.subheader("Receiver's Measurement Results")
@@ -262,17 +272,15 @@ with quiz:
         
             st.write("**Receiver's Bases:**", receiver_bases)
             st.write("**Receiver's Quantum States:**", receiver_states)
-            st.subheader("Check Your Prediction")
-            user_prediction = st.text_area("Enter your prediction for the receiver's quantum states (comma-separated):")
-            if user_prediction:
-                user_prediction = [s.strip() for s in user_prediction.split(",")]
-                if user_prediction == receiver_states:
-                    st.success("Correct! Your prediction matches the receiver's measurement.")
-                else:
-                    st.error("Incorrect. Your prediction does not match the receiver's measurement.")
-                    st.write("Correct receiver's quantum states:", receiver_states)
+            
         st.subheader("How did you do?")
-        st.write("Check your prediction and see if it matches the receiver's measurement!")
+        st.write("""
+        Check your prediction and see if it matches the receiver's measurement! If it does not match, can you see why? Where the bases are not the same, it may just be that you were unlucky in your choice of state!
+                 
+        If you would like another go, you need to **clear the cache** and reload the page. 
+        You can do the former by clicking on the three dots in the upper right corner and selecting Clear cache.
+                 
+        """)
 
 with source:
     st.subheader("Sources & Further Reading for those interested")
