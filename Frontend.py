@@ -247,3 +247,15 @@ if st.button("Simulate Receiver's Measurement"):
             st.write("Correct receiver's quantum states:", receiver_states)
 st.subheader("How did you do?")
 st.write("Check your prediction and see if it matches the receiver's measurement!")
+
+st.subheader("Sources & Further Reading for those interested")
+st.write("""
+1. Singh P, Kaur K. Database security using encryption. In: Proceedings of the 2015 International Conference on Futuristic Trends on Computational Analysis and Knowledge Management (ABLAZE); Greater Noida, India. IEEE; 2015. 353-358. doi: 10.1109/ABLAZE.2015.7155019.
+2. Griffiths DJ, Schroeter DF. Introduction to Quantum Mechanics. 3rd ed. Cambridge: Cambridge University Press; 2018.         
+3. Obloev KH. The Importance of Data Encryption in Information Security. Psixologiya va Sotsiologiya Ilmiy Jurnali. 2024;9: 89-94. 
+4. Scarani V, Bechmann-Pasquinucci H, Cerf NJ et al. The Security of Practical Quantum Key Distribution. Rev. Mod. Phys. 2009;81(3): 1301-1350. https://doi.org/10.48550/arXiv.0802.4155.
+5. Bennett, C. H., & Brassard, G. Quantum Cryptography: Public Key Distribution and Coin Tossing. Theoretical Computer Science. 1984; 560: 7-11. https://doi.org/10.48550/arXiv.2003.06557.
+6. A. Aji, K. Jain and P. Krishnan A Survey of Quantum Key Distribution (QKD) Network Simulation Platforms.  2021 2nd Global Conference for Advancement in Technology (GCAT). 2021. pp. 1-8 doi: 10.1109/GCAT52182.2021.9587708.
+7. Jasim OK, Abbas S, El-Horbaty EM, Salem AM. Quantum key distribution: Simulation and characterizations. Procedia Comput Sci. 2015;65: 701-10. doi: 10.1016/j.procs.2015.09.014.
+8. Adu-Kyere A, Nigussie E, Isoaho J. Quantum Key Distribution: Modeling and Simulation through BB84 Protocol Using Python3. Sensors. 2022; 22(16): 6284. https://doi.org/10.3390/s22166284.
+         """)
