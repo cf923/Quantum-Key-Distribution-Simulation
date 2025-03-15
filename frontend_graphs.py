@@ -43,7 +43,7 @@ def run(nbits, eavesdropactive, error_bound):
     rec_bases, rec_states = qk.receive_signal(eavbases, eavstates, nbits)
     errors = qk.recognise_error(send_bases, send_states, rec_bases, rec_states)
     senderkey, receiverkey, key = qk.generate_key(errors, send_bases, send_states, rec_bases, rec_states, error_bound)
-    st.markdown("x-axes are bits")
+    st.markdown("Note: x-axes represent bit labels (1st bit, 2nd bit, etc.)")
     st.header("Bases:")
     st.pyplot(plot_arrays([send_bases, eavbases, rec_bases], ["Sender Bases", "Eavesdropper Bases", "Receiver Bases"], eavesdropactive, colmap, ncols=2))
     st.header("States:")
