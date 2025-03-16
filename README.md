@@ -1,4 +1,5 @@
 # Quantum Key Distribution Simulation
+
 A simulation of the BB84 quantum key distribution protocol.
 
 Quantum computing has increasingly entered public awareness, so it is important for people to understand what is actually meant by the terms which are used in media (e.g. quantum cryptography). This is a simplified, interactive, visual representation, focusing on approachability for those unfamiliar with the underlying maths.
@@ -7,38 +8,47 @@ This is a simulation describing the process of two correspondents generating a s
 
 ---
 
-To use the simulation on your computer, download Frontend.py, open a terminal, change the directory to where you've saved Frontend.py and enter 
+To use the simulation on your computer, clone the repo, open a terminal, change the directory to where you've cloned, and enter:
+
 ```Shell
 streamlit run Frontend.py
 ```
 
+Note that the Simulation tab uses compiled C scripts which you compile yourself.
+
 ---
 
-To use the Quantum-Key-Distribution-Simulation.py script and get strings from the uint8's, lookup each element of output arrays in the dictionaries:
+In all simulations but QKDSim.py, bases and states are encoded in the following way:
+
 ```Python
 bases_lookup = {0: "Rectilinear", 1: "Diagonal"}
 states_lookup = {0: "vertical", 1: "horizontal", 2: "backslash", 3: "forwardslash"}
 ```
-The same can be done for Quantum_Key_Distribution_Simulation.c
 
-Replace <Quantum_Key_Distribution_Simulation_binary_location> with the absolute path to the compiled C script.
+(nothing actually uses these dictionaries but you could look up the values produced by the simulation by passing them though the dictionaries)
 
-To compile Quantum_Key_Distribution_Simulation.c for your system:
+---
+To compile C files for your system:
+
+As an example, Quantum_Key_Distribution_Simulation.c can be compiled as follows:
 
 #### Windows
 ```Shell
-gcc Quantum-Key-Distribution-Simulation.c -o Quantum-Key-Distribution-Simulation.exe
+gcc Quantum_Key_Distribution_Simulation.c -o Quantum_Key_Distribution_Simulation.exe
 ```
 Alternatively use VSCode or WSL
 
 #### macOS
 ```Shell
-gcc Quantum-Key-Distribution-Simulation.c -o Quantum-Key-Distribution-Simulation
+gcc Quantum_Key_Distribution_Simulation.c -o Quantum_Key_Distribution_Simulation
 ```
 
 Alternatively use Xcode (CLang)
 
 #### Linux
 ```Shell
-gcc Quantum-Key-Distribution-Simulation.c -o Quantum-Key-Distribution-Simulation.o
+gcc Quantum_Key_Distribution_Simulation.c -o Quantum_Key_Distribution_Simulation
 ```
+
+The simulations using C expect a binary with no extension, thus if you compile to an exe you must modify the code as such.
+The code uses relative paths as your directory structure cannot be magically guessed, but for your system, absolute paths are recommended.
