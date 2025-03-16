@@ -5,6 +5,10 @@ Quantum computing has increasingly entered public awareness, so it is important 
 
 This is a simulation describing the process of two correspondents generating a shared key using quantum mechanical principles in accordance with the BB84 protocol, with an eavesdropper which can be toggled active or inactive.
 
+To use the simulation on your computer, download Frontend.py, open a terminal, change the directory to where you've saved Frontend.py and enter 
+```Shell
+streamlit run Frontend.py
+```
 
 To use the Quantum-Key-Distribution-Simulation.py script and get strings from the uint8's, lookup each element of output arrays in the dictionaries:
 ```Python
