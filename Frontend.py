@@ -2,10 +2,11 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from random import choice
 import frontend_graphs as fg
+import statistics_interface as si
 st.title("Quantum Key Distribution - BB84 Protocol Simulation")
 execution_count: None
 
-about, sim, quiz, source = st.tabs(["About", "Simulation", "Quiz", "Sources & More"])
+about, sim, quiz, stats, source = st.tabs(["About", "Simulation", "Quiz", "Statistics", "Sources & More"])
 
 with about:
     st.header("What is encryption and why should I care about it?")
@@ -279,6 +280,10 @@ with quiz:
         You can do the former by clicking on the three dots in the upper right corner and selecting Clear cache.
                  
         """)
+with stats:
+    st.write("Runs the simulation with eavesdroppes on and off, for up to 100 bits, 10000 times, and computes proportion of key generations")
+    if st.button("run simulation"):
+        si.run()
 
 with source:
     st.subheader("Sources & Further Reading for those interested")
