@@ -5,7 +5,7 @@ import frontend_graphs as fg
 st.title("Quantum Key Distribution - BB84 Protocol Simulation")
 execution_count: None
 
-about, sim, quiz, stats, source = st.tabs(["About", "Simulation", "Quiz", "Statistics", "Sources & More"])
+about, sim, quiz, source = st.tabs(["About", "Simulation", "Quiz", "Sources & More"])
 
 with about:
     st.header("What is encryption and why should I care about it?")
@@ -247,15 +247,13 @@ with quiz:
         
         st.subheader("Sender's Data")
         st.write("The sender (Alice) has sent the following quantum states:")
-        
-        @st.cache_data
-        def sender_info(bases,states):
-            sender_bases = [choice(bases) for _ in range(5)]
-            sender_states = [choice(quantum_states[basis]) for basis in sender_bases]
-            
-            return sender_bases, sender_states
-        
-        sender_bases, sender_states = sender_info(bases,quantum_states)
+
+        if 'sender_bases' not in st.session_state:
+            st.session_state['sender_bases'] = [choice(bases) for i in range(5)]
+        if 'sender_states' not in st.session_state:
+            st.session_state['sender_states'] = [choice(quantum_states[basis]) for basis in st.session_state['sender_bases']]
+        sender_bases = st.session_state['sender_bases']
+        sender_states = st.session_state['sender_states']
         st.write("**Sender's Bases:**", sender_bases)
         st.write("**Sender's Quantum States:**", sender_states)
         
@@ -281,9 +279,6 @@ with quiz:
         You can do the former by clicking on the three dots in the upper right corner and selecting Clear cache.
                  
         """)
-        
-with stats: 
-    
 
 with source:
     st.subheader("Sources & Further Reading for those interested")
