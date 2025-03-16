@@ -5,7 +5,7 @@ import frontend_graphs as fg
 st.title("Quantum Key Distribution - BB84 Protocol Simulation")
 execution_count: None
 
-about, sim, quiz, source = st.tabs(["About", "Simulation", "Quiz", "Sources & More"])
+about, sim, quiz, stats, source = st.tabs(["About", "Simulation", "Quiz", "Statistics", "Sources & More"])
 
 with about:
     st.header("What is encryption and why should I care about it?")
@@ -281,6 +281,9 @@ with quiz:
         You can do the former by clicking on the three dots in the upper right corner and selecting Clear cache.
                  
         """)
+        
+with stats: 
+    
 
 with source:
     st.subheader("Sources & Further Reading for those interested")
