@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from random import choice
 import frontend_graphs as fg
 import statistics_interface as si
+
 st.title("Quantum Key Distribution - BB84 Protocol Simulation")
 execution_count: None
 
@@ -276,14 +277,15 @@ with quiz:
         st.write("""
         Check your prediction and see if it matches the receiver's measurement! If it does not match, can you see why? Where the bases are not the same, it may just be that you were unlucky in your choice of state!
                  
-        If you would like another go, you need to **clear the cache** and reload the page. 
-        You can do the former by clicking on the three dots in the upper right corner and selecting Clear cache.
+        If you would like another go, you need to reload the page. 
                  
         """)
 with stats:
-    st.write("Runs the simulation with eavesdroppes on and off, for up to 100 bits, 10000 times, and computes proportion of key generations")
-    if st.button("run simulation"):
+    st.write("This program runs the simulation with eavesdropper on and off, for up to 100 bits, 10000 times, and computes the proportion of key generations. Note: error threshold is zero errors.")
+    if st.button("Run simulation"):
         si.run()
+        
+    st.write("Can you explain why the curves have this shape? Hint: Error detection is probabilistic.")
 
 with source:
     st.subheader("Sources & Further Reading for those interested")

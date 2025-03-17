@@ -2,7 +2,6 @@ Improvement ideas:
 - Label the error causing bit on the graph.
 - Need more quiz questions. 
 - Make the page more visually appealing by adding color and/or pictures. 
-- Need to make simulation graph more understandable - maybe instead of associating colors with numbers in the legend, associate colors with the states explicitly (!)
 
 Fixed: 
 - Question 3 mixes up forward slash and backslash.
@@ -11,5 +10,6 @@ Fixed:
 - Prevent page from reloading when button is pressed, otherwise "predict the states" section does not work (!) - The entering of predicted states does not work either, because copying a state reloads the page. 
 - Label the x axis as bits? 
 - Not sure what "resulting key" is but it should not be different to sender and receiver key. Maybe just display one final key? 
+- Need to make simulation graph more understandable - maybe instead of associating colors with numbers in the legend, associate colors with the states explicitly (!)
 
 
